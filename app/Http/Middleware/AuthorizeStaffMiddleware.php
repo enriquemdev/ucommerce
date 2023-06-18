@@ -13,7 +13,7 @@ class AuthorizeStaffMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
         // Validacion del tipo de usuario a la hora de acceder a una vista del panel de administracion de Filament
         $is_staff = auth()->user()->is_staff;

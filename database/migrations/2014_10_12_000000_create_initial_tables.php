@@ -38,6 +38,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes(); //This needs to be here to add softDeletes
         });
 
         Schema::create('company_branches', function (Blueprint $table) {
@@ -47,6 +48,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('phone_number')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('shipping_rates', function (Blueprint $table) {
