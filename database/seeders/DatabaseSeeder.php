@@ -46,5 +46,15 @@ class DatabaseSeeder extends Seeder
             'is_staff' => 1,
             'password' => '$2y$10$IahmE8unUOBhWgUwwrVBn.EPoKCsEN1XgkKFgG5qvD2.ohYeRO7Uy',
         ]);
+
+        DB::table('cat_departments')->insert([
+            'name' => 'Rivas',
+            'description' => 'Sur de Nicaragua',
+        ]);
+
+        DB::table('company_branches')->insert([
+            'name' => 'Rivas',
+            'cat_department_id' => 1,
+        ]);
     }
 }

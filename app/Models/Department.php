@@ -22,4 +22,9 @@ class Department extends Model
     {
         return $this->hasMany(CompanyBranch::class, 'cat_department_id', 'id');
     }
+
+    public function shipping_rates(): HasMany
+    {
+        return $this->hasMany(ShippingRate::class, 'destiny_department_id', 'id');
+    }
 }

@@ -75,7 +75,7 @@ class CompanyBranchResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ShippingRatesRelationManager::class,
         ];
     }
     

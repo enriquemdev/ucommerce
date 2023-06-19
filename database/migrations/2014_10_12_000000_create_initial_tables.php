@@ -59,6 +59,7 @@ return new class extends Migration
             $table->integer('days_delivery'); // How many days it takes to deliver
             //$table->decimal('fixed_rate', 8, 2)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('users', function (Blueprint $table) {
