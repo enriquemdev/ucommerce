@@ -55,7 +55,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_branch_id')->constrained('company_branches'); // from here   
             $table->foreignId('destiny_department_id')->constrained('cat_departments'); // To here
-            $table->decimal('rate_per_pound', 8, 2)->nullable();
+            $table->decimal('rate_per_pound', 8, 2);
             $table->integer('days_delivery'); // How many days it takes to deliver
             //$table->decimal('fixed_rate', 8, 2)->nullable();
             $table->timestamps();

@@ -50,10 +50,18 @@ class DatabaseSeeder extends Seeder
         DB::table('cat_departments')->insert([
             'name' => 'Rivas',
             'description' => 'Sur de Nicaragua',
+        ],
+        [
+            'name' => 'Managua',
+            'description' => 'Capital de Nicaragua',
+        ],
+        [
+            'name' => 'Carazo',
+            'description' => 'Por ahi',
         ]);
 
         DB::table('company_branches')->insert([
-            'name' => 'Rivas',
+            'name' => 'Sucursal Rivas',
             'cat_department_id' => 1,
         ]);
     }
