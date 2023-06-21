@@ -19,6 +19,10 @@ class CompanyBranchResource extends Resource
     protected static ?string $model = CompanyBranch::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $modelLabel = 'Sucursal';
+    protected static ?string $pluralModelLabel = 'Sucursales';
+    protected static ?string $navigationLabel = 'Sucursales';
 
     public static function form(Form $form): Form
     {
@@ -28,15 +32,19 @@ class CompanyBranchResource extends Resource
                 //     ->required(),
                 Select::make('cat_department_id')
                     ->relationship('department', 'name')
-                    ->required(),
+                    ->required()
+                    ->label('Ubicación'),
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Nombre'),
                 Forms\Components\TextInput::make('address')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Dirección'),
                 Forms\Components\TextInput::make('phone_number')
                     ->tel()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Teléfono'),
             ]);
     }
 
@@ -47,16 +55,28 @@ class CompanyBranchResource extends Resource
                 // Tables\Columns\TextColumn::make('cat_department_id'),
                 Tables\Columns\TextColumn::make('department.name')
                     ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('address'),
-                Tables\Columns\TextColumn::make('phone_number'),
+                    ->sortable()
+                    ->label('Ubicación'),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Nombre'),
+                Tables\Columns\TextColumn::make('address')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Dirección'),
+                Tables\Columns\TextColumn::make('phone_number')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Teléfono'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->label('Creado en'),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->label('Actualizado en'),
+                // Tables\Columns\TextColumn::make('deleted_at')
+                //     ->dateTime(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

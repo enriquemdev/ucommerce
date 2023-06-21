@@ -73,6 +73,7 @@ return new class extends Migration
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('adresses_users', function (Blueprint $table) {
@@ -82,6 +83,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone_number')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('package_receivers', function (Blueprint $table) {
@@ -91,6 +93,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone_number');
             $table->timestamps();
+            $table->softDeletes();
         });
 
 
@@ -102,6 +105,7 @@ return new class extends Migration
             $table->boolean('shipping_price_weight')->default(true); // true is ship price is based on product pounds, false if it is a fixed categorie price
             $table->foreignId('user_added')->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // ej: color
@@ -111,6 +115,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->foreignId('user_added')->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // ej: red, blue, green
@@ -121,6 +126,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->foreignId('user_added')->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         //  mid table between product_categories and specifications
@@ -131,6 +137,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->foreignId('user_added')->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('products', function (Blueprint $table) {
@@ -143,6 +150,7 @@ return new class extends Migration
             $table->boolean('state')->default(true); // true is active, false is inactive
             $table->foreignId('user_added')->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('product_details', function (Blueprint $table) {
@@ -151,6 +159,7 @@ return new class extends Migration
             $table->foreignId('specification_id')->constrained('specifications');
             $table->foreignId('option_id')->constrained('specification_options');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // This is for when is the same product(but with variations, ej: size)
@@ -159,6 +168,7 @@ return new class extends Migration
             $table->foreignId('product_category_id')->constrained('product_categories');
             $table->string('variation_name');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('variations_options', function (Blueprint $table) {
@@ -166,6 +176,7 @@ return new class extends Migration
             $table->foreignId('variation_id')->constrained('product_category_variations');
             $table->string('variation_option');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // Mid table bertween products and variation options (product may have multiple variation RAM and Space for example)\
@@ -174,12 +185,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('variations_products_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('variation_option_id')->constrained('variations_options');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         //Company branches and products to know quantity available all over the branches
@@ -190,6 +203,7 @@ return new class extends Migration
             $table->foreignId('variation_option_id')->constrained('variations_options')->nullable(); //Only if it has variations
             $table->integer('available_quantity')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
 
 
@@ -201,6 +215,7 @@ return new class extends Migration
             $table->text('purchase_note')->nullable();
             $table->foreignId('user_registered')->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('purchase_details', function (Blueprint $table) {
@@ -210,6 +225,7 @@ return new class extends Migration
             $table->integer('purchase_quantity')->default(0);
             $table->decimal('unit_cost', 10, 2)->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // The total of the quantities here must match with the purchase detail parent
@@ -219,6 +235,7 @@ return new class extends Migration
             $table->foreignId('company_branch_id')->constrained('company_branches');
             $table->integer('quantity_to_branch')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // Sales, configs and operation like returns or damaged products are left for later
@@ -231,6 +248,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         //The user info is null if the client is not registered, it will have a connection in another table
@@ -245,6 +263,7 @@ return new class extends Migration
             $table->string('receipt_uri')->nullable();
             $table->text('sale_note')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('sales_without_users', function (Blueprint $table) {
@@ -260,6 +279,7 @@ return new class extends Migration
             $table->string('email_receiver')->nullable();
             $table->string('phone_number_receiver')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('sale_details', function (Blueprint $table) {
@@ -270,6 +290,7 @@ return new class extends Migration
             $table->decimal('unit_price', 10, 2)->default(0);
             $table->decimal('shipping_price', 10, 2)->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // The total of the quantities here must match with the sale detail parent
@@ -279,6 +300,7 @@ return new class extends Migration
             $table->foreignId('company_branch_id')->constrained('company_branches');
             $table->integer('quantity_from_branch')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // Shipping tables
@@ -288,6 +310,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
         // pending, in transit, delivered, failed
 
@@ -296,6 +319,7 @@ return new class extends Migration
             $table->foreignId('sale_id')->constrained('sales');
             $table->foreignId('company_branch_id')->constrained('company_branches');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('shipping_details', function (Blueprint $table) {
@@ -304,6 +328,7 @@ return new class extends Migration
             $table->foreignId('sale_detail_branch_id')->constrained('sale_details_branch');
             $table->foreignId('shipping_state_id')->constrained('shipping_states');
             $table->timestamps();
+            $table->softDeletes();
         });
 
 

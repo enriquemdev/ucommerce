@@ -17,7 +17,11 @@ class DepartmentResource extends Resource
 {
     protected static ?string $model = Department::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-location-marker';
+    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $modelLabel = 'Departamento';
+    protected static ?string $pluralModelLabel = 'Departamentos';
+    protected static ?string $navigationLabel = 'Departamentos';
 
     public static function form(Form $form): Form
     {
@@ -25,9 +29,11 @@ class DepartmentResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Nombre'),
                 Forms\Components\TextInput::make('description')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Descripción'),
             ]);
     }
 
@@ -35,14 +41,17 @@ class DepartmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
+                Tables\Columns\TextColumn::make('name')->label('Nombre'),
+                Tables\Columns\TextColumn::make('description')->label('Descripción'),
+                // Tables\Columns\TextColumn::make('deleted_at')
+                //     ->dateTime()
+                //     ->label('Eliminado en'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->label('Creado en'),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->label('Actualizado en'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

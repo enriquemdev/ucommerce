@@ -22,6 +22,11 @@ class ShippingRatesRelationManager extends RelationManager
 
     protected static ?string $inverseRelationship = 'company_branch'; 
 
+
+
+    protected static ?string $modelLabel = 'Tarifa de envío';
+    protected static ?string $pluralModelLabel = 'Tarifas de envío';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -40,7 +45,7 @@ class ShippingRatesRelationManager extends RelationManager
                     // Entonces se hace otro Closure para modificar la query y se le pasa el $livewire para obtener el id del Company Branch y poder filtrar
                     // Y al subquery modificador es donde se compara especificamente el registro del company branch que se desea y no con todos.
                     //  $livewire->ownerRecord accede a la fila del padre de esta relacion que es el CompanyBranch, ya con eso se accede a su id con normalidad
-                    ->required(),
+                    ->required()->label('Departamento'),
                 TextInput::make('rate_per_pound')
                     ->required()
                     ->numeric()
@@ -52,7 +57,8 @@ class ShippingRatesRelationManager extends RelationManager
                         ->minValue(0) // Set the minimum value that the number can be.
                         ->padFractionalZeros() // Pad zeros at the end of the number to always maintain the maximum number of decimal places.
                         ->thousandsSeparator(','), // Add a separator for thousands.
-                    ),
+                    )
+                    ->label('Tarifa por libra'),
                 TextInput::make('days_delivery')
                     ->required()
                     ->numeric()
@@ -63,7 +69,7 @@ class ShippingRatesRelationManager extends RelationManager
                         ->minValue(0) // Set the minimum value that the number can be.
                         ->maxValue(100) // Set the maximum value that the number can be.
                         ->thousandsSeparator(','), // Add a separator for thousands.
-                    ),
+                    )->label('Días de entrega'),
             ]);
     }
 
@@ -73,9 +79,10 @@ class ShippingRatesRelationManager extends RelationManager
             ->columns([
                 // Tables\Columns\TextColumn::make('destiny_department_id'),
                 Tables\Columns\TextColumn::make('department.name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('rate_per_pound'),
-                Tables\Columns\TextColumn::make('days_delivery'),
+                    ->searchable()
+                    ->label('Departamento'),
+                Tables\Columns\TextColumn::make('rate_per_pound')->label('Tarifa por libra'),
+                Tables\Columns\TextColumn::make('days_delivery')->label('Días de entrega'),
             ])
             ->filters([
                 //
