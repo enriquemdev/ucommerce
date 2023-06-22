@@ -27,4 +27,9 @@ class Department extends Model
     {
         return $this->hasMany(ShippingRate::class, 'destiny_department_id', 'id');
     }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(AddressUser::class, 'department_id', 'id');
+    }
 }

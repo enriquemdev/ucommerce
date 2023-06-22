@@ -32,26 +32,30 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Nombre'),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Email'),
                 Forms\Components\Toggle::make('is_staff')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                    ->required()
+                    ->label('Es Staff'),
+                // Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('two_factor_secret')
-                    ->maxLength(65535),
-                Forms\Components\Textarea::make('two_factor_recovery_codes')
-                    ->maxLength(65535),
-                Forms\Components\DateTimePicker::make('two_factor_confirmed_at'),
-                Forms\Components\TextInput::make('current_team_id'),
-                Forms\Components\TextInput::make('profile_photo_path')
-                    ->maxLength(2048),
+                    ->maxLength(255)
+                    ->label('Contraseña'),
+                // Forms\Components\Textarea::make('two_factor_secret')
+                //     ->maxLength(65535),
+                // Forms\Components\Textarea::make('two_factor_recovery_codes')
+                //     ->maxLength(65535),
+                // Forms\Components\DateTimePicker::make('two_factor_confirmed_at'),
+                // Forms\Components\TextInput::make('current_team_id'),
+                // Forms\Components\TextInput::make('profile_photo_path')
+                //     ->maxLength(2048),
             ]);
     }
 
@@ -60,26 +64,34 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                ->searchable()
-                ->sortable()
-                ->label('Nombre'),
-                Tables\Columns\TextColumn::make('email'),
+                    ->searchable()
+                    ->sortable()
+                    ->label('Nombre'),
+                Tables\Columns\TextColumn::make('email')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Email'),
                 Tables\Columns\IconColumn::make('is_staff')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('two_factor_secret'),
-                Tables\Columns\TextColumn::make('two_factor_recovery_codes'),
-                Tables\Columns\TextColumn::make('two_factor_confirmed_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('current_team_id'),
-                Tables\Columns\TextColumn::make('profile_photo_path'),
+                    ->boolean()
+                    ->sortable()
+                    ->label('Es Staff'),
+                // Tables\Columns\TextColumn::make('email_verified_at')
+                //     ->dateTime(),
+                // Tables\Columns\TextColumn::make('two_factor_secret'),
+                // Tables\Columns\TextColumn::make('two_factor_recovery_codes'),
+                // Tables\Columns\TextColumn::make('two_factor_confirmed_at')
+                //     ->dateTime(),
+                // Tables\Columns\TextColumn::make('current_team_id'),
+                // Tables\Columns\TextColumn::make('profile_photo_path'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->sortable()
+                    ->label('Creado en'),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->label('Actualizado en'),
+                // Tables\Columns\TextColumn::make('deleted_at')
+                //     ->dateTime(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -103,7 +115,8 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\AddressesRelationManager::class,
+            RelationManagers\PackageReceiverRelationManager::class,
         ];
     }
     

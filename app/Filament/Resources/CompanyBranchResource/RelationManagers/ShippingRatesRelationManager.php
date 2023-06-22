@@ -23,7 +23,6 @@ class ShippingRatesRelationManager extends RelationManager
     protected static ?string $inverseRelationship = 'company_branch'; 
 
 
-
     protected static ?string $modelLabel = 'Tarifa de envío';
     protected static ?string $pluralModelLabel = 'Tarifas de envío';
 

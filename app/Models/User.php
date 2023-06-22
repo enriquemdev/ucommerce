@@ -11,6 +11,8 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -61,4 +63,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(AddressUser::class, 'user_id', 'id');
+    }
+
+    public function package_receiver(): HasMany
+    {
+        return $this->hasMany(PackageReceiver::class, 'user_id', 'id');
+    }
 }
