@@ -163,6 +163,8 @@ return new class extends Migration
         });
 
         // This is for when is the same product(but with variations, ej: size)
+        // Creo que debi haber creado una tabla que sea variations y luego conectarla muchos a muchos con categorias por que puede que el size sea para varias catergorias
+        //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         Schema::create('product_category_variations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_category_id')->constrained('product_categories');
@@ -181,6 +183,8 @@ return new class extends Migration
 
         // Mid table bertween products and variation options (product may have multiple variation RAM and Space for example)\
         //So first we create a variation agrupation, and then in a child table the different variation option values
+
+        //Tabla agrupa todos los valores de las variaciones por producto 1 a muchos con producto
         Schema::create('variations_products_group', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products');
@@ -190,6 +194,7 @@ return new class extends Migration
 
         Schema::create('variations_products_details', function (Blueprint $table) {
             $table->id();
+            // Aqui me comi el id de la tabla anterior (la de grupos)
             $table->foreignId('variation_option_id')->constrained('variations_options');
             $table->timestamps();
             $table->softDeletes();
@@ -199,7 +204,9 @@ return new class extends Migration
         Schema::create('branch_product_variation', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_branch_id')->constrained('company_branches');
+            // En teoria no necesitaria el producto si guardo el grupo de variaciones de un producto pero hay que ver
             $table->foreignId('product_id')->constrained('products');
+            //El siguiente constraint deberia ser con el grupo de variaciones de un producto para obtener el producto unico con x variaciones
             $table->foreignId('variation_option_id')->constrained('variations_options')->nullable(); //Only if it has variations
             $table->integer('available_quantity')->default(0);
             $table->timestamps();
