@@ -96,10 +96,21 @@ return new class extends Migration
             $table->softDeletes();
         });
 
+        // *** Tablas de productos ***
+
+        Schema::create('parent_product_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('parent_category_name');
+            $table->string('parent_description')->nullable();
+            $table->foreignId('user_added')->constrained('users');
+            $table->timestamps();
+            $table->softDeletes();
+        });
 
         // ej: clothing
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('parent_category_id')->constrained('parent_product_categories');
             $table->string('category_name');
             $table->string('description')->nullable();
             $table->boolean('shipping_price_weight')->default(true); // true is ship price is based on product pounds, false if it is a fixed categorie price
@@ -165,17 +176,27 @@ return new class extends Migration
         // This is for when is the same product(but with variations, ej: size)
         // Creo que debi haber creado una tabla que sea variations y luego conectarla muchos a muchos con categorias por que puede que el size sea para varias catergorias
         //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        Schema::create('variations', function (Blueprint $table) {
+            $table->id();
+            //$table->foreignId('product_category_id')->constrained('product_categories');
+            $table->string('variation_name');
+            $table->string('variation_description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+        
+        // Tabla relacion muchos a muchos entre product_categories y variations
         Schema::create('product_category_variations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_category_id')->constrained('product_categories');
-            $table->string('variation_name');
+            $table->foreignId('variation_id')->constrained('variations');
             $table->timestamps();
             $table->softDeletes();
         });
 
         Schema::create('variations_options', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('variation_id')->constrained('product_category_variations');
+            $table->foreignId('variation_id')->constrained('variations');
             $table->string('variation_option');
             $table->timestamps();
             $table->softDeletes();
@@ -195,6 +216,8 @@ return new class extends Migration
         Schema::create('variations_products_details', function (Blueprint $table) {
             $table->id();
             // Aqui me comi el id de la tabla anterior (la de grupos)
+            //ya
+            $table->foreignId('variation_group_id')->constrained('variations_products_group');
             $table->foreignId('variation_option_id')->constrained('variations_options');
             $table->timestamps();
             $table->softDeletes();
