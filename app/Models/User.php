@@ -73,4 +73,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(PackageReceiver::class, 'user_id', 'id');
     }
+
+    public function parent_categories(): HasMany
+    {
+        return $this->hasMany(ParentCategory::class, 'user_added', 'id');
+    }
 }
