@@ -230,7 +230,7 @@ return new class extends Migration
             // En teoria no necesitaria el producto si guardo el grupo de variaciones de un producto pero hay que ver
             $table->foreignId('product_id')->constrained('products');
             //El siguiente constraint deberia ser con el grupo de variaciones de un producto para obtener el producto unico con x variaciones
-            $table->foreignId('variation_option_id')->constrained('variations_options')->nullable(); //Only if it has variations
+            $table->foreignId('variation_group_id')->constrained('variations_products_group')->nullable(); //Only if it has variations
             $table->integer('available_quantity')->default(0);
             $table->timestamps();
             $table->softDeletes();
@@ -252,6 +252,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('purchase_id')->constrained('purchases');
             $table->foreignId('product_id')->constrained('products');
+            // Add the variation group id here As this is the definitive identifier of a product
+            $table->foreignId('variation_group_id')->constrained('variations_products_group')->nullable(); //Only if it has variations
             $table->integer('purchase_quantity')->default(0);
             $table->decimal('unit_cost', 10, 2)->default(0);
             $table->timestamps();
@@ -316,6 +318,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sale_id')->constrained('sales');
             $table->foreignId('product_id')->constrained('products');
+            // Add the variation group id here As this is the definitive identifier of a product
+            $table->foreignId('variation_group_id')->constrained('variations_products_group')->nullable(); //Only if it has variations
             $table->integer('sale_quantity')->default(0);
             $table->decimal('unit_price', 10, 2)->default(0);
             $table->decimal('shipping_price', 10, 2)->default(0);
@@ -348,6 +352,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sale_id')->constrained('sales');
             $table->foreignId('company_branch_id')->constrained('company_branches');
+            $table->foreignId('shipping_state_id')->constrained('shipping_states');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -356,7 +361,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('shipping_branch_id')->constrained('shipping_branch'); //father table
             $table->foreignId('sale_detail_branch_id')->constrained('sale_details_branch');
-            $table->foreignId('shipping_state_id')->constrained('shipping_states');
             $table->timestamps();
             $table->softDeletes();
         });
