@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ParentCategoryResource\Pages;
-use App\Filament\Resources\ParentCategoryResource\RelationManagers;
-use App\Models\ParentCategory;
+use App\Filament\Resources\SpecificationResource\Pages;
+use App\Filament\Resources\SpecificationResource\RelationManagers;
+use App\Models\Specification;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,27 +13,25 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ParentCategoryResource extends Resource
+class SpecificationResource extends Resource
 {
-    protected static ?string $model = ParentCategory::class;
+    protected static ?string $model = Specification::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $recordTitleAttribute = 'parent_category_name';
-    protected static ?string $modelLabel = 'Categoría Padre';
-    protected static ?string $pluralModelLabel = 'Categorías Padre';
-    protected static ?string $navigationLabel = 'Categorías Padre';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard';
+    protected static ?string $recordTitleAttribute = 'specification';
+    protected static ?string $modelLabel = 'Especificación';
+    protected static ?string $pluralModelLabel = 'Especificaciones';
+    protected static ?string $navigationLabel = 'Especificaciones';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                // Forms\Components\TextInput::make('user_added')
-                //     ->required(),
-                Forms\Components\TextInput::make('parent_category_name')
+                Forms\Components\TextInput::make('specification')
                     ->required()
                     ->maxLength(255)
-                    ->label('Nombre de la Categoría Padre'),
-                Forms\Components\TextInput::make('parent_description')
+                    ->label('Nombre de la Especificación'),
+                Forms\Components\TextInput::make('description')
                     ->maxLength(255)
                     ->label('Descripción'),
             ]);
@@ -43,16 +41,11 @@ class ParentCategoryResource extends Resource
     {
         return $table
             ->columns([
-                // Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('specification')
                     ->searchable()
                     ->sortable()
-                    ->label('Nombre de usuario'),
-                Tables\Columns\TextColumn::make('parent_category_name')
-                    ->searchable()
-                    ->sortable()
-                    ->label('Nombre'),
-                Tables\Columns\TextColumn::make('parent_description')
+                    ->label('Nombre Especificación'),
+                Tables\Columns\TextColumn::make('description')
                     ->searchable()
                     ->sortable()
                     ->label('Descripción'),
@@ -61,11 +54,8 @@ class ParentCategoryResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Creado en'),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->searchable()
-                    ->sortable()
-                    ->label('Actualizado en'),
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime(),
                 // Tables\Columns\TextColumn::make('deleted_at')
                 //     ->dateTime(),
             ])
@@ -87,16 +77,17 @@ class ParentCategoryResource extends Resource
     {
         return [
             //
+            RelationManagers\SpecificationOptionsRelationManager::class,
         ];
     }
     
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListParentCategories::route('/'),
-            'create' => Pages\CreateParentCategory::route('/create'),
-            'view' => Pages\ViewParentCategory::route('/{record}'),
-            'edit' => Pages\EditParentCategory::route('/{record}/edit'),
+            'index' => Pages\ListSpecifications::route('/'),
+            'create' => Pages\CreateSpecification::route('/create'),
+            'view' => Pages\ViewSpecification::route('/{record}'),
+            'edit' => Pages\EditSpecification::route('/{record}/edit'),
         ];
     }    
     

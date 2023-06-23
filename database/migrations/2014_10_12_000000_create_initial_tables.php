@@ -114,7 +114,6 @@ return new class extends Migration
             $table->string('category_name');
             $table->string('description')->nullable();
             $table->boolean('shipping_price_weight')->default(true); // true is ship price is based on product pounds, false if it is a fixed categorie price
-            $table->foreignId('user_added')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -124,7 +123,6 @@ return new class extends Migration
             $table->id();
             $table->string('specification');
             $table->string('description')->nullable();
-            $table->foreignId('user_added')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -135,7 +133,6 @@ return new class extends Migration
             $table->foreignId('specification_id')->constrained('specifications');
             $table->string('option');
             $table->string('description')->nullable();
-            $table->foreignId('user_added')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -146,7 +143,6 @@ return new class extends Migration
             $table->foreignId('prod_category_id')->constrained('product_categories');
             $table->foreignId('specification_id')->constrained('specifications');
             $table->string('description')->nullable();
-            $table->foreignId('user_added')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -159,7 +155,6 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->decimal('weight', 10, 2);
             $table->boolean('state')->default(true); // true is active, false is inactive
-            $table->foreignId('user_added')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
         });
