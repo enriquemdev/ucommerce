@@ -24,8 +24,8 @@ class ParentCategory extends Model
         return $this->belongsTo(User::class, 'user_added', 'id');
     }
 
-    // public function shipping_rates(): HasMany
-    // {
-    //     return $this->hasMany(ShippingRate::class, 'company_branch_id', 'id');
-    // }
+    public function product_categories(): HasMany
+    {
+        return $this->hasMany(ProductCategory::class, 'parent_category_id', 'id');
+    }
 }
