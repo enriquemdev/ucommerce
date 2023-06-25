@@ -107,7 +107,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        // ej: clothing
+        // ej: clothing // Subcategorias de productos
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('parent_category_id')->constrained('parent_product_categories');
@@ -137,7 +137,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        //  mid table between product_categories and specifications
+        //  mid table between product_categories (subcategories) and specifications
         Schema::create('categories_specifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('prod_category_id')->constrained('product_categories');

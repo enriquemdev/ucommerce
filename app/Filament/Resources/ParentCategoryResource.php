@@ -86,7 +86,7 @@ class ParentCategoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ProductCategoriesRelationManager::class,
         ];
     }
     

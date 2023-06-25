@@ -28,8 +28,9 @@ class ProductCategory extends Model
         return $this->belongsTo(ParentCategory::class, 'parent_category_id', 'id');
     }
 
-    // public function specification_options(): HasMany
-    // {
-    //     return $this->hasMany(SpecificationOption::class, 'specification_id', 'id');
-    // }
+    //  table: categories_specifications | mid table between product_categories (subcategories) and specifications
+    public function specifications(): HasMany
+    {
+        return $this->hasMany(Specification::class, 'prod_category_id', 'id');
+    }
 }

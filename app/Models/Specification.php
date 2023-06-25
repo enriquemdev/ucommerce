@@ -30,4 +30,10 @@ class Specification extends Model
     {
         return $this->hasMany(SpecificationOption::class, 'specification_id', 'id');
     }
+
+    //  table: categories_specifications | mid table between product_categories (subcategories) and specifications
+    public function categories(): HasMany
+    {
+        return $this->hasMany(CategoriesSpecifications::class, 'specification_id', 'id');
+    }
 }

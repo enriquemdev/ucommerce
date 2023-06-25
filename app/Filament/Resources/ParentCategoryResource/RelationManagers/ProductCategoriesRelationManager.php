@@ -1,36 +1,29 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\ParentCategoryResource\RelationManagers;
 
-use App\Filament\Resources\ProductCategoryResource\Pages;
-use App\Filament\Resources\ProductCategoryResource\RelationManagers;
-use App\Models\ProductCategory;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ProductCategoryResource extends Resource
+class ProductCategoriesRelationManager extends RelationManager
 {
-    protected static ?string $model = ProductCategory::class;
+    protected static string $relationship = 'product_categories';
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
     protected static ?string $recordTitleAttribute = 'category_name';
-    protected static ?string $modelLabel = 'Subcategoría de Producto';
-    protected static ?string $pluralModelLabel = 'Subcategorías de Productos';
-    protected static ?string $navigationLabel = 'Subcategorías de Productos';
+
+    protected static ?string $inverseRelationship = 'parent_category';
+    protected static ?string $modelLabel = 'Subcategoría de producto';
+    protected static ?string $pluralModelLabel = 'Subcategorías de productos';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('parent_category_id') // Columna de la tabla que tiene el foreign key
-                    ->required()
-                    ->relationship('parent_category', 'parent_product_categories.parent_category_name') // Nombre de la relación en el modelo, valor de la columna de la tabla que se mostrara enel select
-                    ->label('Categoría Padre'),
                 Forms\Components\TextInput::make('category_name')
                     ->required()
                     ->maxLength(255)
@@ -48,10 +41,7 @@ class ProductCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('parent_category.parent_category_name')
-                    ->searchable()
-                    ->sortable()
-                    ->label('Categoría Padre'),
+                //Tables\Columns\TextColumn::make('category_name'),
                 Tables\Columns\TextColumn::make('category_name')
                     ->searchable()
                     ->sortable()
@@ -70,45 +60,29 @@ class ProductCategoryResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Creado en'),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->dateTime(),
-                // Tables\Columns\TextColumn::make('deleted_at')
-                //     ->dateTime(),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TrashedFilter::make()
+            ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-                Tables\Actions\ForceDeleteBulkAction::make(),
                 Tables\Actions\RestoreBulkAction::make(),
+                Tables\Actions\ForceDeleteBulkAction::make(),
             ]);
-    }
-    
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-    
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListProductCategories::route('/'),
-            'create' => Pages\CreateProductCategory::route('/create'),
-            'view' => Pages\ViewProductCategory::route('/{record}'),
-            'edit' => Pages\EditProductCategory::route('/{record}/edit'),
-        ];
     }    
     
-    public static function getEloquentQuery(): Builder
+    protected function getTableQuery(): Builder
     {
-        return parent::getEloquentQuery()
+        return parent::getTableQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
