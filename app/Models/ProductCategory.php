@@ -31,6 +31,6 @@ class ProductCategory extends Model
     //  table: categories_specifications | mid table between product_categories (subcategories) and specifications
     public function specifications(): HasMany
     {
-        return $this->hasMany(Specification::class, 'prod_category_id', 'id');
+        return $this->hasMany(CategoriesSpecifications::class, 'prod_category_id', 'id');
     }
 }

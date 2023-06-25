@@ -17,16 +17,20 @@ class SpecificationsRelationManager extends RelationManager
     protected static ?string $recordTitleAttribute = 'specification_id';
 
     protected static ?string $inverseRelationship = 'categories'; 
-    protected static ?string $modelLabel = 'Especificación de la categoría';
-    protected static ?string $pluralModelLabel = 'Especificaciones de las categorías';
+    protected static ?string $modelLabel = 'Especificación de la subcategoría';
+    protected static ?string $pluralModelLabel = 'Especificaciones de la subcategoría';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('specification_id')
+                Forms\Components\Select::make('specification_id')
+                    ->relationship('specification', 'specification')//relacion, nombreColumna
                     ->required()
-                    ->maxLength(255),
+                    ->label('Especificación a relacionar'),
+                Forms\Components\Textarea::make('description')
+                    ->maxLength(255)
+                    ->label('Descripción / Nota'),
             ]);
     }
 
@@ -34,7 +38,7 @@ class SpecificationsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('specifications.specification')
+                Tables\Columns\TextColumn::make('specification.specification')//relacion.nombreColumna
                     ->searchable()
                     ->sortable()
                     ->label('Nombre especificación'),

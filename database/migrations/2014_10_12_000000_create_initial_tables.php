@@ -154,6 +154,7 @@ return new class extends Migration
             $table->string('description');
             $table->decimal('price', 10, 2);
             $table->decimal('weight', 10, 2);
+            $table->string('images')->nullable();
             $table->boolean('state')->default(true); // true is active, false is inactive
             $table->timestamps();
             $table->softDeletes();
