@@ -149,11 +149,11 @@ return new class extends Migration
 
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();
+            //$table->string('code')->unique();
             $table->foreignId('product_category_id')->constrained('product_categories');
             $table->string('description');
-            $table->decimal('price', 10, 2);
-            $table->decimal('weight', 10, 2);
+            // $table->decimal('price', 10, 2);
+            // $table->decimal('weight', 10, 2);
             $table->string('images')->nullable();
             $table->boolean('state')->default(true); // true is active, false is inactive
             $table->timestamps();
@@ -181,6 +181,7 @@ return new class extends Migration
             $table->softDeletes();
         });
         
+        // VALIDAR QUE SI UNA VARIANTE O UNA ESPECIFICACION YA FUERON RELACIONADAS CON UNA CATEGORIA YA NO APAREZCAN EN EL SELECT
         // Tabla relacion muchos a muchos entre product_categories y variations
         Schema::create('product_category_variations', function (Blueprint $table) {
             $table->id();
@@ -205,6 +206,8 @@ return new class extends Migration
         Schema::create('variations_products_group', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products');
+            $table->decimal('price', 10, 2);
+            $table->decimal('weight', 10, 2);
             $table->timestamps();
             $table->softDeletes();
         });

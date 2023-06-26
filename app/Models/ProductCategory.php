@@ -33,4 +33,17 @@ class ProductCategory extends Model
     {
         return $this->hasMany(CategoriesSpecifications::class, 'prod_category_id', 'id');
     }
+
+    //  table: product_category_variations | mid table between product_categories (subcategories) and variations
+    public function variations(): HasMany
+    {
+        return $this->hasMany(SubcategoryVariation::class, 'product_category_id', 'id');
+    }
+
+    // A product belongs to a subcategory (ProductCategory)
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'product_category_id', 'id');
+    }
+
 }

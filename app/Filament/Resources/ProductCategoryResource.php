@@ -48,14 +48,14 @@ class ProductCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('parent_category.parent_category_name')
-                    ->searchable()
-                    ->sortable()
-                    ->label('Categoría Padre'),
                 Tables\Columns\TextColumn::make('category_name')
                     ->searchable()
                     ->sortable()
                     ->label('Nombre Subcategoría'),
+                Tables\Columns\TextColumn::make('parent_category.parent_category_name')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Categoría Padre'),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable()
                     ->sortable()
@@ -93,6 +93,7 @@ class ProductCategoryResource extends Resource
     {
         return [
             RelationManagers\SpecificationsRelationManager::class,
+            RelationManagers\VariationsRelationManager::class,
         ];
     }
     

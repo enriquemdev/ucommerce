@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SpecificationResource\Pages;
-use App\Filament\Resources\SpecificationResource\RelationManagers;
-use App\Models\Specification;
+use App\Filament\Resources\VariationResource\Pages;
+use App\Filament\Resources\VariationResource\RelationManagers;
+use App\Models\Variation;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,25 +13,25 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class SpecificationResource extends Resource
+class VariationResource extends Resource
 {
-    protected static ?string $model = Specification::class;
+    protected static ?string $model = Variation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard';
-    protected static ?string $recordTitleAttribute = 'specification';
-    protected static ?string $modelLabel = 'Especificación';
-    protected static ?string $pluralModelLabel = 'Especificaciones';
-    protected static ?string $navigationLabel = 'Especificaciones de Productos';
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $recordTitleAttribute = 'variation_name';
+    protected static ?string $modelLabel = 'Variante de Producto';
+    protected static ?string $pluralModelLabel = 'Variantes del Producto';
+    protected static ?string $navigationLabel = 'Variantes de Productos';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('specification')
+                Forms\Components\TextInput::make('variation_name')
                     ->required()
                     ->maxLength(255)
-                    ->label('Nombre de la Especificación'),
-                Forms\Components\TextInput::make('description')
+                    ->label('Nombre de la Variante del Producto'),
+                Forms\Components\TextInput::make('variation_description')
                     ->maxLength(255)
                     ->label('Descripción'),
             ]);
@@ -41,11 +41,11 @@ class SpecificationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('specification')
+                Tables\Columns\TextColumn::make('variation_name')
                     ->searchable()
                     ->sortable()
-                    ->label('Nombre Especificación'),
-                Tables\Columns\TextColumn::make('description')
+                    ->label('Nombre de la Variante del Producto'),
+                Tables\Columns\TextColumn::make('variation_description')
                     ->searchable()
                     ->sortable()
                     ->label('Descripción'),
@@ -53,7 +53,7 @@ class SpecificationResource extends Resource
                     ->dateTime()
                     ->searchable()
                     ->sortable()
-                    ->label('Creado en'),
+                    ->label('Fecha de Creación'),
                 // Tables\Columns\TextColumn::make('updated_at')
                 //     ->dateTime(),
                 // Tables\Columns\TextColumn::make('deleted_at')
@@ -76,18 +76,17 @@ class SpecificationResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
-            RelationManagers\SpecificationOptionsRelationManager::class,
+            RelationManagers\VariationOptionsRelationManager::class,
         ];
     }
     
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSpecifications::route('/'),
-            'create' => Pages\CreateSpecification::route('/create'),
-            'view' => Pages\ViewSpecification::route('/{record}'),
-            'edit' => Pages\EditSpecification::route('/{record}/edit'),
+            'index' => Pages\ListVariations::route('/'),
+            'create' => Pages\CreateVariation::route('/create'),
+            'view' => Pages\ViewVariation::route('/{record}'),
+            'edit' => Pages\EditVariation::route('/{record}/edit'),
         ];
     }    
     

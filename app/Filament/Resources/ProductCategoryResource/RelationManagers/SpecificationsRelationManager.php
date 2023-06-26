@@ -24,10 +24,16 @@ class SpecificationsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('specification_id')
-                    ->relationship('specification', 'specification')//relacion, nombreColumna
-                    ->required()
-                    ->label('Especificación a relacionar'),
+                Forms\Components\Select::make('specification_id') // Columna en la tabla intermedia del Modelo Padre
+                ->relationship('specification', 'specifications.specification', function (Builder $query, RelationManager $livewire) { // Relacion en el Modelo hijo, tabla.columna identificador
+                     $query->whereDoesntHave('categories', function ($subquery) use ($livewire) { // Relacion en el Modelo padre, tabla.columna identificador
+                        $subquery->where('prod_category_id', '=', $livewire->ownerRecord->id); // Columna de la tabla intermedia de el modelo Hijo
+                    });
+                }),
+                // Forms\Components\Select::make('specification_id')
+                //     ->relationship('specification', 'specification')//relacion, nombreColumna
+                //     ->required()
+                //     ->label('Especificación a relacionar'),
                 Forms\Components\Textarea::make('description')
                     ->maxLength(255)
                     ->label('Descripción / Nota'),
