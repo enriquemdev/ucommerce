@@ -84,8 +84,9 @@ class VariationGroupResource extends Resource
             'create' => Pages\CreateVariationGroup::route('/create'),
             'view' => Pages\ViewVariationGroup::route('/{record}'),
             'edit' => Pages\EditVariationGroup::route('/{record}/edit'),
-            'variation_group'         => Pages\ListVariationGroups::route('/{record}'),
-            'variation_group.create'  => Pages\CreateVariationGroup::route('/{record}/create'),
+            'variation_group'         => Pages\ListVariationGroups::route('/filter/{record}'),
+            // Buscar como hacer esta pagina para poder anadir agrupaciones de variantes con sus respectivos productos predispuestos
+            'variation_group.create'  => Pages\CreateVariationGroup::route('/filter/{record}/create'),
         ];
     }    
     

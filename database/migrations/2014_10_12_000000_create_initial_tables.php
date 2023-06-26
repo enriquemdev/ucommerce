@@ -147,6 +147,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
+        // ANADIR UN NOMBRE DE PRODUCTO
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             //$table->string('code')->unique();

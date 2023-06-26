@@ -71,7 +71,7 @@ class ProductResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Action::make('variation_group')->url(fn ($record): string => url('admin/products/variation_group/'.$record->id)),
+                Action::make('variation_group')->url(fn ($record): string => url('admin/products/variation_group/filter/'.$record->id)),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
