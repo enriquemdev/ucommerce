@@ -10,6 +10,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -70,6 +71,7 @@ class ProductResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Action::make('variation_group')->url(fn ($record): string => url('admin/products/variation_group/'.$record->id)),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

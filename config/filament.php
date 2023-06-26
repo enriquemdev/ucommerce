@@ -318,7 +318,7 @@ return [
     'middleware' => [
         'auth' => [
             Authenticate::class,
-            AuthorizeStaffMiddleware::class,
+            //AuthorizeStaffMiddleware::class,
         ],
         'base' => [
             EncryptCookies::class,

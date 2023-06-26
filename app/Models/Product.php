@@ -29,9 +29,9 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class, 'product_category_id', 'id');
     }
 
-    //  table: categories_specifications | mid table between product_categories (subcategories) and specifications
-    // public function specifications(): HasMany
-    // {
-    //     return $this->hasMany(CategoriesSpecifications::class, 'prod_category_id', 'id');
-    // }
+    // Table: variations_products_group | mid table between products and variations details (one to many)
+    public function variation_group(): HasMany
+    {
+        return $this->hasMany(VariationGroup::class, 'product_id', 'id');
+    }
 }
